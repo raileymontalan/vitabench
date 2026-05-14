@@ -95,15 +95,15 @@ python score_summary.py data/simulations/Qwen3.6-27B
 
 ### AISG evaluation results (100 cross-scenario tasks, delivery + instore + ota)
 
-Models ordered alphabetically. Current data is 1-trial runs — Pass^2/^3 will populate after 3-trial re-runs.
+Models ordered alphabetically. Gemma models have completed 3-trial runs (300 simulations); Qwen models have partial 3-trial runs in progress.
 
 | Model | Tasks | Avg Reward | Pass@1 | Pass^1 | Pass^2 | Pass^3 |
 |-------|:-----:|:----------:|:------:|:------:|:------:|:------:|
-| google/gemma-4-31B-it | 100 | 0.090 | 9/100 (9%) | 0.090 | — | — |
+| google/gemma-4-31B-it | 100 | 0.087 | 9/100 (9%) | 0.087 | — | — |
 | google/gemma-4-E2B-it | 100 | 0.000 | 0/100 (0%) | 0.000 | — | — |
-| google/gemma-4-E4B-it | 100 | 0.010 | 1/100 (1%) | 0.010 | — | — |
-| Qwen/Qwen3.5-27B | 100 | **0.090** | **9/100 (9%)** | **0.090** | — | — |
-| Qwen/Qwen3.6-27B | 100 | 0.080 | 8/100 (8%) | 0.080 | — | — |
+| google/gemma-4-E4B-it | 100 | 0.007 | 1/100 (1%) | 0.007 | — | — |
+| Qwen/Qwen3.5-27B | 100 | **0.098** | **10/100 (10%)** | **0.102** | — | — |
+| Qwen/Qwen3.6-27B | 100 | 0.081 | 8/100 (8%) | 0.075 | — | — |
 
 Metric definitions:
 - **Avg Reward** — mean task reward across all trials (0–1); vitabench uses a strict sliding-window rubric evaluator, so scores are near-binary (tasks either fully succeed or largely fail)

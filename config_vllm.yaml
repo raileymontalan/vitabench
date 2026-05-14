@@ -68,3 +68,9 @@ models:
     enable_thinking: true
     reasoning_parser: qwen3
     tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
