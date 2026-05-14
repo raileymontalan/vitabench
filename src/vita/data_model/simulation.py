@@ -220,6 +220,13 @@ class RunConfig(BaseModel):
             default=False,
         ),
     ]
+    auto_resume: Annotated[
+        bool,
+        Field(
+            description="Automatically resume a previous run without prompting. Safe for non-interactive environments (e.g. SLURM).",
+            default=False,
+        ),
+    ]
 
     def validate(self) -> None:
         """

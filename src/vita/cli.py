@@ -175,6 +175,11 @@ def add_run_args(parser):
         action="store_true",
         help="Re-run tasks specified by --task-ids. If used with --re-evaluate-file, will re-run specified tasks and then re-evaluate all tasks together.",
     )
+    parser.add_argument(
+        "--auto-resume",
+        action="store_true",
+        help="Automatically resume a previous run without prompting. Safe for non-interactive environments (e.g. SLURM).",
+    )
     
 
 
@@ -212,7 +217,8 @@ def main():
                 csv_output_file=getattr(args, 'csv_output', None),
                 enable_think=args.enable_think,
                 language=args.language,
-                re_run=getattr(args, 're_run', False)
+                re_run=getattr(args, 're_run', False),
+                auto_resume=getattr(args, 'auto_resume', False)
             )
         )
     )

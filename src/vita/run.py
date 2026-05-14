@@ -155,6 +155,7 @@ def run_domain(config: RunConfig) -> Results:
         llm_evaluator=config.llm_evaluator,
         llm_args_evaluator=config.llm_args_evaluator,
         language=config.language,
+        auto_resume=getattr(config, 'auto_resume', False),
     )
     
     metrics = compute_metrics(simulation_results)
@@ -193,6 +194,7 @@ def run_tasks(
     llm_evaluator: Optional[str] = None,
     llm_args_evaluator: Optional[dict] = None,
     language: str = None,
+    auto_resume: bool = False,
 ) -> Results:
     """
     Runs tasks for a given domain.
@@ -268,19 +270,24 @@ def run_tasks(
     if save_to is not None:
         # If save_to already exists, check if the user wants to resume the run.
         if save_to.exists():
-            response = (
-                ConsoleDisplay.console.input(
-                    "[yellow]File [bold]{}[/bold] already exists. Do you want to resume the run? (y/n)[/yellow] ".format(
-                        save_to
+            if auto_resume:
+                ConsoleDisplay.console.print(
+                    f"[bold yellow]Auto-resuming run from {save_to}.[/bold yellow]"
+                )
+            else:
+                response = (
+                    ConsoleDisplay.console.input(
+                        "[yellow]File [bold]{}[/bold] already exists. Do you want to resume the run? (y/n)[/yellow] ".format(
+                            save_to
+                        )
                     )
+                    .lower()
+                    .strip()
                 )
-                .lower()
-                .strip()
-            )
-            if response != "y":
-                raise FileExistsError(
-                    f"File {save_to} already exists. Please delete it or use a different save_to name."
-                )
+                if response != "y":
+                    raise FileExistsError(
+                        f"File {save_to} already exists. Please delete it or use a different save_to name."
+                    )
             with open(save_to, "r") as fp:
                 prev_simulation_results = Results.model_validate_json(fp.read())
                 # Check if the run config has changed
@@ -291,22 +298,27 @@ def run_tasks(
                         prev_simulation_results.info.model_dump(),
                         simulation_results.info.model_dump(),
                     )
-                    ConsoleDisplay.console.print(
-                        f"The run config has changed.\n\n{diff}\n\nDo you want to resume the run? (y/n)"
-                    )
-                    response = (
-                        ConsoleDisplay.console.input(
-                            "[yellow]File [bold]{}[/bold] already exists. Do you want to resume the run? (y/n)[/yellow] ".format(
-                                save_to
+                    if auto_resume:
+                        ConsoleDisplay.console.print(
+                            f"[bold yellow]Run config changed (auto-resuming anyway):\n{diff}[/bold yellow]"
+                        )
+                    else:
+                        ConsoleDisplay.console.print(
+                            f"The run config has changed.\n\n{diff}\n\nDo you want to resume the run? (y/n)"
+                        )
+                        response = (
+                            ConsoleDisplay.console.input(
+                                "[yellow]File [bold]{}[/bold] already exists. Do you want to resume the run? (y/n)[/yellow] ".format(
+                                    save_to
+                                )
                             )
+                            .lower()
+                            .strip()
                         )
-                        .lower()
-                        .strip()
-                    )
-                    if response != "y":
-                        raise ValueError(
-                            "The run config has changed. Please delete the existing file or use a different save_to name."
-                        )
+                        if response != "y":
+                            raise ValueError(
+                                "The run config has changed. Please delete the existing file or use a different save_to name."
+                            )
                 # Check if the task set has changed
                 if not all(
                     get_pydantic_hash(task) == get_pydantic_hash(prev_task)
