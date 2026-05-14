@@ -50,3 +50,21 @@ models:
     enable_thinking: true
     reasoning_parser: qwen3
     tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand1:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand2:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand3:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder

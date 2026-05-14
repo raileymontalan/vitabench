@@ -229,8 +229,8 @@ class DeliveryTools(ToolKitBase):
             self,
             user_id: str,
             store_id: str,
-            product_ids: List[str],
-            product_cnts: List[int],
+            food_ids: List[str],
+            food_cnts: List[int],
             address: str,
             dispatch_time: str,
             # create_time: str,
@@ -240,10 +240,10 @@ class DeliveryTools(ToolKitBase):
         assert user_id, "User ID cannot be empty"
         assert self._check_user(user_id), "User ID does not match"
         assert store_id in self.db.stores, f"Store {store_id} not found"
-        assert all([self._get_store_product(product_id) is not None for product_id in product_ids]), f"products {product_ids} not found"
+        assert all([self._get_store_product(product_id) is not None for product_id in food_ids]), f"products {food_ids} not found"
         assert address != "", f"Location {address} is empty"
-        assert len(product_ids) == len(product_cnts) and all(
-            [cnt > 0 for cnt in product_cnts]), f"product_cnts {product_cnts} list is invalid"
+        assert len(food_ids) == len(food_cnts) and all(
+            [cnt > 0 for cnt in food_cnts]), f"food_cnts {food_cnts} list is invalid"
         assert dispatch_time and check_time_format(
             dispatch_time), f"dispatch_time {dispatch_time} time format is invalid, yyyy-mm-dd HH:MM:SS required"
         assert str_to_datetime(dispatch_time) >= str_to_datetime(
@@ -252,7 +252,7 @@ class DeliveryTools(ToolKitBase):
         #     create_time), f"create_time {create_time} time format is invalid, yyyy-mm-dd HH:MM:SS required"
         # assert str_to_datetime(create_time) >= str_to_datetime(
         #     self.get_now("%Y-%m-%d %H:%M:%S")), f"create_time {create_time} must be in the future"
-        products = [self._get_store_product(product_id) for product_id in product_ids]
+        products = [self._get_store_product(product_id) for product_id in food_ids]
 
         store = self._get_store(store_id)
         longitude, latitude = self.address_to_longitude_latitude(address)
@@ -261,14 +261,14 @@ class DeliveryTools(ToolKitBase):
         shipping_time = self.delivery_distance_to_time(distance)
         delivery_time = format_time(str_to_datetime(dispatch_time) + timedelta(minutes=shipping_time),
                                     "%Y-%m-%d %H:%M:%S")
-        total_amount = sum([product.price * cnt for product, cnt in zip(products, product_cnts)])
+        total_amount = sum([product.price * cnt for product, cnt in zip(products, food_cnts)])
         attribute_list = [""] * len(products)
         attributes = attributes if attributes is not None else []
         for i, attr in enumerate(attributes[:len(products)]):
             if attr:
                 attribute_list[i] = attr
         ordered_products = []
-        for product, cnt, attr in zip(products, product_cnts, attribute_list):
+        for product, cnt, attr in zip(products, food_cnts, attribute_list):
             store_product = StoreProduct(
                 product_id=product.product_id,
                 name=product.name,

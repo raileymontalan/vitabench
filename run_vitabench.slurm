@@ -304,13 +304,13 @@ echo "Shutting down vLLM servers..."
 kill "${MODEL_PID}" "${JUDGE_PID}" 2>/dev/null || true
 wait "${MODEL_PID}" "${JUDGE_PID}" 2>/dev/null || true
 
-rm -f "${JOB_MODELS_YAML}"
-unset VITA_MODEL_CONFIG_PATH
-
 # Print and save results summary
 echo ""
 echo "=== Results Summary ==="
 uv run python3 score_summary.py data/simulations/ 2>&1 | tee "data/simulations/score_summary.txt"
 echo "Summary saved to data/simulations/score_summary.txt"
+
+rm -f "${JOB_MODELS_YAML}"
+unset VITA_MODEL_CONFIG_PATH
 
 exit $EXIT_CODE
