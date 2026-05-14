@@ -113,19 +113,20 @@ def main():
     sorted_models = sorted(cache.keys())
 
     # ── Header ────────────────────────────────────────────────────────────────
-    pass_header = "  ".join(
-        f"{'Pass@'+str(k):>7s}  {'Pass^'+str(k):>7s}" for k in k_values
-    )
-    header = f"{'Model':<25s}  {'Domain':<12s}  {'Tasks':>5s}  {'Avg':>5s}  {pass_header}"
+    # Pass@1 (any pass) differs from Pass^1 (per-trial rate) only when k>1.
+    # For k≥2 Pass@k == Pass^k (both = fraction with ≥k passes), so omit Pass@k for k≥2.
+    hat_cols = "  ".join(f"{'Pass^'+str(k):>7s}" for k in k_values if k >= 2)
+    header = f"{'Model':<25s}  {'Domain':<12s}  {'Tasks':>5s}  {'Avg':>5s}  {'Pass@1':>7s}  {'Pass^1':>7s}  {hat_cols}"
     print(header)
     print("─" * len(header))
 
     json_out = []
     for name in sorted_models:
         r = cache[name]
-        pass_vals = "  ".join(
-            _fmt(r["pass_at"].get(k)) + "  " + _fmt(r["pass_hat"].get(k))
-            for k in k_values
+        pass_vals = (
+            _fmt(r["pass_at"].get(1)) + "  " +
+            _fmt(r["pass_hat"].get(1)) + "  " +
+            "  ".join(_fmt(r["pass_hat"].get(k)) for k in k_values if k >= 2)
         )
         print(
             f"{name:<25s}  {r['domain']:<12s}  {r['tasks']:>5d}"
@@ -149,8 +150,9 @@ def main():
         )
 
     print()
-    print(f"Pass@k = fraction of tasks where ≥k trials passed  (vita pass_at_n)")
-    print(f"Pass^k = P(k randomly sampled trials all pass)      (vita pass_hat_ks)")
+    print(f"Pass@1 = fraction of tasks where ≥1 trial passed  (optimistic; upper bound on capability)")
+    print(f"Pass^1 = per-trial pass rate: passing trials / total trials  (differs from Pass@1 when n_trials > 1)")
+    print(f"Pass^k = fraction of tasks where ≥k trials passed  (k≥2; Pass@k omitted — same value)")
 
     # ── Save JSON ──────────────────────────────────────────────────────────────
     out_file = root / "score_summary.json"

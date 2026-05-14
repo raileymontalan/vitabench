@@ -65,7 +65,7 @@ Logs: `logs/vitabench_<jobid>.out`
 | `JUDGE_MODEL`     | `openai/gpt-oss-120b`          | `config_vllm.yaml eval.judge_model` | Judge + user-simulator model                                 |
 | `JUDGE_TP`        | `1`                            | `config_vllm.yaml eval.judge_tp`    | Tensor parallel size for judge                               |
 | `DOMAIN`          | `delivery,instore,ota`         | `config_vllm.yaml eval.domain`      | Comma-separated domains; `cross_domain` available separately |
-| `NUM_TRIALS`      | `1`                            | `config_vllm.yaml eval.num_trials`  | Independent trials per task                                  |
+| `NUM_TRIALS`      | `3`                            | `config_vllm.yaml eval.num_trials`  | Independent trials per task (Pass^3 metric)                  |
 | `MAX_CONCURRENCY` | `4`                            | `config_vllm.yaml eval.max_concurrency` | Concurrent simulation workers                           |
 | `MAX_STEPS`       | `300`                          | `config_vllm.yaml eval.max_steps`   | Max steps per simulation before abandoning                   |
 | `SAVE_TO`         | `<model basename>`             | SLURM script                        | Output filename under `data/simulations/`                    |
@@ -95,18 +95,22 @@ python score_summary.py data/simulations/Qwen3.6-27B
 
 ### AISG evaluation results (100 cross-scenario tasks, delivery + instore + ota)
 
-Models ordered alphabetically.
+Models ordered alphabetically. Current data is 1-trial runs — Pass^2/^3 will populate after 3-trial re-runs.
 
-| Model | Tasks | Pass^1 | Avg Reward |
-|-------|:-----:|:------:|:----------:|
-| google/gemma-4-31B-it | 100 | 0.090 | 0.090 |
-| google/gemma-4-E2B-it | 100 | 0.000 | 0.000 |
-| google/gemma-4-E4B-it | 100 | 0.010 | 0.010 |
-| Qwen/Qwen3.5-27B | 100 | **0.090** | **0.090** |
-| Qwen/Qwen3.6-27B | 100 | 0.080 | 0.080 |
+| Model | Tasks | Avg Reward | Pass@1 | Pass^1 | Pass^2 | Pass^3 |
+|-------|:-----:|:----------:|:------:|:------:|:------:|:------:|
+| google/gemma-4-31B-it | 100 | 0.090 | 9/100 (9%) | 0.090 | — | — |
+| google/gemma-4-E2B-it | 100 | 0.000 | 0/100 (0%) | 0.000 | — | — |
+| google/gemma-4-E4B-it | 100 | 0.010 | 1/100 (1%) | 0.010 | — | — |
+| Qwen/Qwen3.5-27B | 100 | **0.090** | **9/100 (9%)** | **0.090** | — | — |
+| Qwen/Qwen3.6-27B | 100 | 0.080 | 8/100 (8%) | 0.080 | — | — |
 
-- **Pass^1** — fraction of tasks where the single trial fully succeeded (all rubric criteria met)
-- **Avg Reward** — mean reward per task (0–1); vitabench uses a strict sliding-window rubric evaluator, so Pass^1 ≈ Avg Reward
+Metric definitions:
+- **Avg Reward** — mean task reward across all trials (0–1); vitabench uses a strict sliding-window rubric evaluator, so scores are near-binary (tasks either fully succeed or largely fail)
+- **Pass@1** — tasks where ≥1 trial passed (optimistic; upper bound on capability; equals Pass^1 for 1-trial runs)
+- **Pass^1** — per-trial pass rate: fraction of all task-trial pairs that passed (differs from Pass@1 when n_trials > 1)
+- **Pass^2** — tasks where ≥2 trials passed
+- **Pass^3** — tasks where all 3 trials passed (strict reliability; primary metric)
 
 ---
 
