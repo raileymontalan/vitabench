@@ -37,3 +37,6 @@ ENV/
 # special files
 **/simulations
 **/configs
+
+# logs
+logs/

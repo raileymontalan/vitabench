@@ -1,0 +1,52 @@
+# vitabench model configuration for local vLLM serving
+#
+# eval section: defaults used by submit_vitabench.sh and run_vitabench.slurm
+# models section: per-model vLLM serving parameters (tp, thinking, parsers)
+#
+# Add new models here to register them for evaluation.
+# model names must match the HuggingFace model ID.
+
+eval:
+  # Model under evaluation (agent)
+  default_model: Qwen/Qwen3.6-27B
+  # Judge + user-simulator model
+  judge_model: openai/gpt-oss-120b
+  judge_tp: 1
+  # Domains to evaluate: delivery, instore, ota (single), or comma-separated for cross-domain
+  # "delivery,instore,ota" runs cross-scenario tasks (matches leaderboard Cross-Scenarios column)
+  domain: "delivery,instore,ota"
+  language: english
+  num_trials: 3
+  max_concurrency: 4
+  max_steps: 300
+
+models:
+  google/gemma-4-31B-it:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: gemma4
+    tool_call_parser: gemma4
+
+  google/gemma-4-E2B-it:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: gemma4
+    tool_call_parser: gemma4
+
+  google/gemma-4-E4B-it:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: gemma4
+    tool_call_parser: gemma4
+
+  Qwen/Qwen3.5-27B:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
+
+  Qwen/Qwen3.6-27B:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder

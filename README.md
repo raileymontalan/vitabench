@@ -1,39 +1,131 @@
-<div align=center><h1>
-    🌱VitaBench: Benchmarking LLM Agents<br>
-    with Versatile Interactive Tasks
-</h1></div>
+# VitaBench: Benchmarking LLM Agents with Versatile Interactive Tasks (AISG Internal Fork)
 
-<p align="center">
-  📃 <a href="https://arxiv.org/abs/2509.26490" target="_blank">Paper</a > • 🌐 <a href="https://vitabench.github.io/" target="_blank">Website</a > • 🏆 <a href="https://vitabench.github.io/#Leaderboard" target="_blank">Leaderboard</a > • 🤗 <a href="https://huggingface.co/datasets/meituan-longcat/VitaBench" target="_blank">Dataset</a ><br>
-</p >
+> **This is an internal AISG fork of [meituan-longcat/vitabench](https://github.com/meituan-longcat/vitabench) for evaluating locally-served models. Results are not submitted to the official leaderboard.**
+>
+> Default model under evaluation: [`Qwen/Qwen3.6-27B`](https://huggingface.co/Qwen/Qwen3.6-27B), served locally via vLLM. Judge + user-simulator: [`openai/gpt-oss-120b`](https://huggingface.co/openai/gpt-oss-120b), also served locally.
 
-## 🔔 News
+VitaBench evaluates agents on versatile interactive tasks across food delivery, in-store consumption, and online travel (OTA) domains — 66 tools, 100 cross-scenario tasks, 300 single-scenario tasks.
 
-- [2026-02] VitaBench is cited by [Qwen3.5](https://qwen.ai/blog?id=qwen3.5) and [Seed2.0](https://seed.bytedance.com/en/seed2)! Growing adoption as the go-to benchmark for tool-use evaluation. 🚀
-- [2026-01] **Qwen Team** has used VitaBench to evaluate their new model [Qwen3-Max-Thinking](https://qwen.ai/blog?id=qwen3-max-thinking), publishing the average score across 4 domains. We encourage the community to adopt VitaBench as the definitive benchmark for tool-use performance and welcome diverse interpretations of its results! 🔥
-- [2026-01] VitaBench has been accepted to **[ICLR 2026](https://openreview.net/forum?id=rtcX9qOBaz)**! 🎉
-- [2026-01] An **updated version** of VitaBench is released with rectified datasets and tools, upgraded evaluation models, and updated metrics for proprietary and open language models based on the new evaluator.
-- [2025-11] The **English version** of the VitaBench dataset is now released! It includes fully translated tasks and databases, enabling broader international use. Try it out!
-- [2025-10] Our paper is released on arXiv: [VitaBench: Benchmarking LLM Agents with Versatile Interactive Tasks in Real-world Applications](https://arxiv.org/abs/2509.26490)
-- [2025-10] The VitaBench suite is released, including the **codebase, dataset and evaluation pipeline**! If you have any questions, feel free to raise issues and/or submit pull requests for new features of bug fixes.
+Default eval runs the **100 cross-scenario tasks** (`--domain delivery,instore,ota` selects tasks whose domain spans all three). Per-domain single-scenario splits (100 tasks each) can be run separately with `--domain delivery`, `--domain instore`, or `--domain ota`.
 
-## 📖 Introduction
+## Quick Start
 
-In this paper, we introduce **VitaBench**, a challenging benchmark that evaluates agents on **v**ersatile **i**nteractive **ta**sks grounded in real-world settings. Drawing from daily applications in food delivery, in-store consumption, and online travel services, VitaBench presents agents with the most complex life-serving simulation environment to date, comprising **66 tools**. Through a framework that eliminates domain-specific policies, we enable flexible composition of these scenarios and tools, yielding **100 cross-scenario tasks (main results) and 300 single-scenario tasks**. Each task is derived from multiple real user requests and requires agents to reason across temporal and spatial dimensions, utilize complex tool sets, proactively clarify ambiguous instructions, and track shifting user intent throughout multi-turn conversations. 
+### 1. Install (one-time, GPU node required)
 
-Moreover, we propose a rubric-based sliding window evaluator, enabling robust assessment of diverse solution pathways in complex environments and stochastic interactions. Our comprehensive evaluation reveals that even the most advanced models achieve only 32.5% success rate on cross-scenario tasks, and less than 62% success rate on others. Overall, we believe VitaBench will serve as a valuable resource for advancing the development of AI agents in practical real-world applications.
+```bash
+sbatch setup_env.slurm
+```
 
-> *The name “Vita” derives from the Latin word for “Life”, reflecting our focus on life-serving applications.*
+Check `logs/setup_<jobid>.out` for completion. Creates `.venv/` with vitabench + vLLM. A GPU node is required — vLLM compiles CUDA kernels on first install.
+
+### 2. Add models to evaluate
+
+Edit `config_vllm.yaml`:
+
+```yaml
+eval:
+  default_model: Qwen/Qwen3.6-27B   # ← change this to switch default
+
+models:
+  Qwen/Qwen3.6-27B:
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
+
+  # Example: add a new model
+  Your/Model-Name:
+    tp: 1
+    enable_thinking: true
+    tool_call_parser: qwen3_coder   # check vLLM docs for your model
+    reasoning_parser: qwen3
+```
+
+`tp` = tensor parallel size (number of GPUs). The submit script reads this to request the right GPU count automatically.
+
+### 3. Submit
+
+```bash
+# Default model from config_vllm.yaml
+./submit_vitabench.sh
+
+# Specific model
+./submit_vitabench.sh Qwen/Qwen3.6-27B
+
+# Override eval settings
+DOMAIN=cross_domain NUM_TRIALS=3 ./submit_vitabench.sh Qwen/Qwen3.6-27B
+```
+
+Logs: `logs/vitabench_<jobid>.out`
+
+| Variable          | Default                        | Source                              | Description                                                  |
+| ----------------- | ------------------------------ | ----------------------------------- | ------------------------------------------------------------ |
+| `MODEL`           | `Qwen/Qwen3.6-27B`             | `config_vllm.yaml` → submit arg     | HuggingFace model ID under evaluation                        |
+| `MODEL_TP`        | `1`                            | `config_vllm.yaml models[MODEL].tp` | Tensor parallel size — set per model in config               |
+| `JUDGE_MODEL`     | `openai/gpt-oss-120b`          | `config_vllm.yaml eval.judge_model` | Judge + user-simulator model                                 |
+| `JUDGE_TP`        | `1`                            | `config_vllm.yaml eval.judge_tp`    | Tensor parallel size for judge                               |
+| `DOMAIN`          | `delivery,instore,ota`         | `config_vllm.yaml eval.domain`      | Comma-separated domains; `cross_domain` available separately |
+| `NUM_TRIALS`      | `1`                            | `config_vllm.yaml eval.num_trials`  | Independent trials per task                                  |
+| `MAX_CONCURRENCY` | `4`                            | `config_vllm.yaml eval.max_concurrency` | Concurrent simulation workers                           |
+| `MAX_STEPS`       | `300`                          | `config_vllm.yaml eval.max_steps`   | Max steps per simulation before abandoning                   |
+| `SAVE_TO`         | `<model basename>`             | SLURM script                        | Output filename under `data/simulations/`                    |
+
+## Results
+
+Results saved to `data/simulations/<SAVE_TO>` (single file, all domains). A `_summary.txt` is written alongside after each run.
+
+View individual trajectories interactively:
+
+```bash
+source .venv/bin/activate
+vita view
+```
+
+Re-score all models from saved files:
+
+```bash
+python score_summary.py data/simulations/
+```
+
+Or for a single model file:
+
+```bash
+python score_summary.py data/simulations/Qwen3.6-27B
+```
+
+### AISG evaluation results (100 cross-scenario tasks, delivery + instore + ota)
+
+Models ordered alphabetically.
+
+| Model | Tasks | Pass^1 | Avg Reward |
+|-------|:-----:|:------:|:----------:|
+| google/gemma-4-31B-it | 100 | 0.090 | 0.090 |
+| google/gemma-4-E2B-it | 100 | 0.000 | 0.000 |
+| google/gemma-4-E4B-it | 100 | 0.010 | 0.010 |
+| Qwen/Qwen3.5-27B | 100 | **0.090** | **0.090** |
+| Qwen/Qwen3.6-27B | 100 | 0.080 | 0.080 |
+
+- **Pass^1** — fraction of tasks where the single trial fully succeeded (all rubric criteria met)
+- **Avg Reward** — mean reward per task (0–1); vitabench uses a strict sliding-window rubric evaluator, so Pass^1 ≈ Avg Reward
+
+---
+
+<details>
+<summary>Upstream documentation</summary>
+
+## Introduction
+
+In this paper, we introduce **VitaBench**, a challenging benchmark that evaluates agents on **v**ersatile **i**nteractive **ta**sks grounded in real-world settings. Drawing from daily applications in food delivery, in-store consumption, and online travel services, VitaBench presents agents with the most complex life-serving simulation environment to date, comprising **66 tools**. Through a framework that eliminates domain-specific policies, we enable flexible composition of these scenarios and tools, yielding **100 cross-scenario tasks (main results) and 300 single-scenario tasks**. Each task is derived from multiple real user requests and requires agents to reason across temporal and spatial dimensions, utilize complex tool sets, proactively clarify ambiguous instructions, and track shifting user intent throughout multi-turn conversations.
+
+Moreover, we propose a rubric-based sliding window evaluator, enabling robust assessment of diverse solution pathways in complex environments and stochastic interactions. Our comprehensive evaluation reveals that even the most advanced models achieve only 32.5% success rate on cross-scenario tasks, and less than 62% success rate on others.
+
+> *The name "Vita" derives from the Latin word for "Life", reflecting our focus on life-serving applications.*
 
 ![overall_performance](assets/overall_performance.png)
 
-## 🌱 Benchmark Details
+## Benchmark Details
 
-VitaBench provides an evaluation framework that supports model evaluations on both single-domain and cross-domain tasks through flexible configuration. For cross-domain evaluation, simply connect multiple domain names with commas—this will automatically merge the environments of the specified domains into a unified environment.
-
-Statistics of databases and environments:
-
-|                                | Cross-Scenarios<br>(All domains) | Delivery | In-store |  OTA  |
+|                                | Cross-Scenarios | Delivery | In-store |  OTA  |
 | :----------------------------- | :-------------: | :------: | :------: | :---: |
 | **Databases**                  |                 |          |          |       |
 | &nbsp;&nbsp; Service Providers |      1,324      |   409    |   611    | 1,437 |
@@ -45,90 +137,10 @@ Statistics of databases and environments:
 | &nbsp;&nbsp; General           |        6        |    6     |    5     |   5   |
 | **Tasks**                      |       100       |   100    |   100    |  100  |
 
+## Re-evaluation
 
+Re-evaluate saved simulations with a different evaluator:
 
-## 🛠️ Quick Start
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/meituan-longcat/vitabench.git
-cd vitabench
-```
-
-2. Install Vita-Bench
-
-```bash
-pip install -e .
-```
-
-This will enable you to run the `vita` command.
-
-
-### Setup LLM Configurations
-
-If you want to customize the location of the `models.yaml` file, you can specify the environment variable `VITA_MODEL_CONFIG_PATH` (default path from repository root is `src/vita/models.yaml`). For example:
-
-```bash
-export VITA_MODEL_CONFIG_PATH=/path/to/your/model/configuration
-```
-
-Example `models.yaml` file
-
-```yaml
-default:
-  base_url: <base url>
-  temperature: <temperature>
-  max_input_tokens: <max input tokens>
-  headers:
-    Accept: "*/*"
-    Accept-Encoding: "gzip, deflate, br"
-    Content-Type: "application/json"
-    Authorization: "Bearer <api key>"
-    Connection: "keep-alive"
-    Cookie: <cookie>
-    User-Agent: <user agent>
-
-models:
-  - name: <model name>
-    max_tokens: <max completion tokens (for some models, use max_completion_tokens)>
-    max_input_tokens: <max input tokens>
-    reasoning_effort: "high"
-    thinking: 
-      type: "enabled"
-      budget_tokens: <budget tokens>
-    cost_1m_token_dollar:
-      prompt_price: <dollars per 1 million tokens>
-      completion_price: <dollars per 1 million tokens>
-```
-The default configuration can apply to all models, the custom model configuration can overwrite default values.
-
-### Run evaluations
-
-To run a test evaluation:
-
-```bash
-vita run \
-  --domain <domain> \              # support single domain (delivery/instore/ota) and cross domain ([delivery,instore,ota])
-  --user-llm <model name> \        # model name in models.yaml
-  --agent-llm <model name> \       # model name in models.yaml
-  --enable-think \                 # Enable think mode for the agent. Default is False.
-  --evaluator-llm <model name> \   # The LLM to use for evaluation.
-  --num-trials 1 \                 # (Optional) The number of times each task is run. Default is 1.
-  --num-tasks 1 \                  # (Optional) The number of tasks to run. Default is the number of all tasks.
-  --task-ids 1 \                   # (Optional) Run only the tasks with the given IDs. Default is run all tasks.
-  --max-steps 300 \                # (Optional) The maximum number of steps to run the simulation. Default is 300.
-  --max-concurrency 1 \            # (Optional) The maximum number of concurrent simulations to run. Default is 1.
-  --csv-output <csv path> \        # (Optional) Path to CSV file to append results.
-  --language <chinese/english> \   # (Optional) The language to use for prompts and tasks. Choices: chinese, english. Default is chinese.
-```
-
-Results will be saved in `data/simulations/`.
-
-### Re-evaluation simulation
-
-Re-evaluate the simulation instead of running new ones.
 ```bash
 vita run \
   --re-evaluate-file <simulation file path> \
@@ -137,35 +149,23 @@ vita run \
   --save-to <new simulation file path>
 ```
 
-### Viewing Results
-```bash
-vita view \
---file <simulation file path> # If provided, only view the given simulation
-```
+## Citation
 
-
-
-## 🔎 Citation
-
-If you find our work helpful or relevant to your research, please kindly cite our paper:
-
-```
+```bibtex
 @article{he2025vitabench,
-      title={VitaBench: Benchmarking LLM Agents with Versatile Interactive Tasks in Real-world Applications}, 
+      title={VitaBench: Benchmarking LLM Agents with Versatile Interactive Tasks in Real-world Applications},
       author={He, Wei and Sun, Yueqing and Hao, Hongyan and Hao, Xueyuan and Xia, Zhikang and Gu, Qi and Han, Chengcheng and Zhao, Dengchang and Su, Hui and Zhang, Kefeng and Gao, Man and Su, Xi and Cai, Xiaodong and Cai, Xunliang and Yang, Yu and Zhao, Yunke},
       journal={arXiv preprint arXiv:2509.26490},
       year={2025}
 }
 ```
 
-## 🤗 Acknowledgement
+## Acknowledgement
 
 We adapted part of the [tau2-bench](https://github.com/sierra-research/tau2-bench)'s codebase in building our evaluation framework, and we greatly appreciate their contributions to the agent community.
 
-## 📜 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+MIT — see [LICENSE](./LICENSE).
 
-## 📪 Support
-
-For questions and support, please open an issue on GitHub or contact the maintainers.
+</details>
