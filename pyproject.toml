@@ -48,6 +48,16 @@ dependencies = [
     "typing-extensions>=4.0.0",
     "json-repair"
 ]
+
+[project.optional-dependencies]
+vllm = [
+    "vllm",
+    "torch==2.11.0",
+    "torchaudio==2.11.0",
+    "torchvision==0.26.0",
+    "transformers==5.5.4"
+]
+
 [project.scripts]
 vita = "vita.cli:main"
 
