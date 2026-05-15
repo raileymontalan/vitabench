@@ -1,0 +1,93 @@
+[
+  {
+    "model": "Qwen3.5-27B",
+    "tasks": 100,
+    "simulations": 345,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0928,
+    "pass_at": {
+      "1": 0.0917
+    },
+    "pass_hat": {
+      "1": 0.0917
+    }
+  },
+  {
+    "model": "Qwen3.6-27B",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0667,
+    "pass_at": {
+      "1": 0.0667
+    },
+    "pass_hat": {
+      "1": 0.0667
+    }
+  },
+  {
+    "model": "gemma-4-31B-it",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0867,
+    "pass_at": {
+      "1": 0.0867
+    },
+    "pass_hat": {
+      "1": 0.0867
+    }
+  },
+  {
+    "model": "gemma-4-E2B-it",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0
+    }
+  },
+  {
+    "model": "gemma-4-E4B-it",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0067,
+    "pass_at": {
+      "1": 0.0067
+    },
+    "pass_hat": {
+      "1": 0.0067
+    }
+  },
+  {
+    "model": "qwen36_27b_cand1",
+    "tasks": 100,
+    "simulations": 81,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0247,
+    "pass_at": {
+      "1": 0.0247
+    },
+    "pass_hat": {
+      "1": 0.0247
+    }
+  },
+  {
+    "model": "qwen36_27b_cand2",
+    "tasks": 100,
+    "simulations": 2,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0
+    }
+  }
+]

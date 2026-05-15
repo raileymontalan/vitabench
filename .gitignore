@@ -35,8 +35,11 @@ ENV/
 .specstory
 
 # special files
-**/simulations
 **/configs
 
 # logs
 logs/
+
+# Include score summaries
+data/simulations/*
+!data/simulations/score_summary.json

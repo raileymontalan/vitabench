@@ -20,6 +20,8 @@ eval:
   max_concurrency: 4
   max_steps: 300
 
+# Per-model settings keyed by HuggingFace model ID.
+# Add a new entry here to support a new model — no SLURM changes needed.
 models:
   google/gemma-4-31B-it:
     tp: 1
@@ -73,4 +75,59 @@ models:
     tp: 1
     enable_thinking: true
     reasoning_parser: qwen3
+    tool_call_parser: qwen3_coder
+
+  # No-thinking variants — model_path points to the real HF ID; key is used for output naming.
+  google/gemma-4-31B-it_nothink:
+    model_path: google/gemma-4-31B-it
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: gemma4
+
+  google/gemma-4-E2B-it_nothink:
+    model_path: google/gemma-4-E2B-it
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: gemma4
+
+  google/gemma-4-E4B-it_nothink:
+    model_path: google/gemma-4-E4B-it
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: gemma4
+
+  Qwen/Qwen3.5-27B_nothink:
+    model_path: Qwen/Qwen3.5-27B
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: qwen3_coder
+
+  Qwen/Qwen3.6-27B_nothink:
+    model_path: Qwen/Qwen3.6-27B
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand1_nothink:
+    model_path: aisingapore/qwen36_27b_cand1
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand2_nothink:
+    model_path: aisingapore/qwen36_27b_cand2
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_cand3_nothink:
+    model_path: aisingapore/qwen36_27b_cand3
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: qwen3_coder
+
+  aisingapore/qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee_nothink:
+    model_path: aisingapore/qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee
+    tp: 1
+    enable_thinking: false
     tool_call_parser: qwen3_coder
