@@ -6,10 +6,14 @@
     "domain": "delivery,ota,instore",
     "avg_reward": 0.0928,
     "pass_at": {
-      "1": 0.0917
+      "1": 0.0917,
+      "2": 0.1633,
+      "3": 0.22
     },
     "pass_hat": {
-      "1": 0.0917
+      "1": 0.0917,
+      "2": 0.02,
+      "3": 0.005
     }
   },
   {
@@ -19,10 +23,14 @@
     "domain": "delivery,ota,instore",
     "avg_reward": 0.0667,
     "pass_at": {
-      "1": 0.0667
+      "1": 0.0667,
+      "2": 0.12,
+      "3": 0.16
     },
     "pass_hat": {
-      "1": 0.0667
+      "1": 0.0667,
+      "2": 0.0133,
+      "3": 0.0
     }
   },
   {
@@ -32,10 +40,14 @@
     "domain": "delivery,ota,instore",
     "avg_reward": 0.0867,
     "pass_at": {
-      "1": 0.0867
+      "1": 0.0867,
+      "2": 0.1467,
+      "3": 0.19
     },
     "pass_hat": {
-      "1": 0.0867
+      "1": 0.0867,
+      "2": 0.0267,
+      "3": 0.01
     }
   },
   {
@@ -45,10 +57,14 @@
     "domain": "delivery,ota,instore",
     "avg_reward": 0.0,
     "pass_at": {
-      "1": 0.0
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
     },
     "pass_hat": {
-      "1": 0.0
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
     }
   },
   {
@@ -58,36 +74,57 @@
     "domain": "delivery,ota,instore",
     "avg_reward": 0.0067,
     "pass_at": {
-      "1": 0.0067
+      "1": 0.0067,
+      "2": 0.0133,
+      "3": 0.02
     },
     "pass_hat": {
-      "1": 0.0067
+      "1": 0.0067,
+      "2": 0.0,
+      "3": 0.0
     }
   },
   {
     "model": "qwen36_27b_cand1",
     "tasks": 100,
-    "simulations": 81,
+    "simulations": 250,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.0247,
+    "avg_reward": 0.04,
     "pass_at": {
-      "1": 0.0247
+      "1": 0.04,
+      "2": 0.0767
     },
     "pass_hat": {
-      "1": 0.0247
+      "1": 0.04,
+      "2": 0.0033
     }
   },
   {
     "model": "qwen36_27b_cand2",
     "tasks": 100,
-    "simulations": 2,
+    "simulations": 235,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.0,
+    "avg_reward": 0.1021,
     "pass_at": {
-      "1": 0.0
+      "1": 0.1033,
+      "2": 0.1867
     },
     "pass_hat": {
-      "1": 0.0
+      "1": 0.1033,
+      "2": 0.02
+    }
+  },
+  {
+    "model": "qwen36_27b_cand3",
+    "tasks": 100,
+    "simulations": 61,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.082,
+    "pass_at": {
+      "1": 0.082
+    },
+    "pass_hat": {
+      "1": 0.082
     }
   }
 ]
