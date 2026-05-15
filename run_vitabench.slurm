@@ -69,7 +69,7 @@
 #SBATCH --mem=256G
 #SBATCH --gres=gpu:2
 #SBATCH --time=24:00:00
-#SBATCH --nodelist=smc-pod-[14,8,5]
+#SBATCH --nodelist=smc-pod-[14,12,11,10,8,5,3]
 #SBATCH --output=logs/vitabench_%j.out
 #SBATCH --error=logs/vitabench_%j.out
 
@@ -191,9 +191,9 @@ MODEL_GPUS=${MODEL_GPUS:-0}
 JUDGE_GPUS=$(IFS=','; echo "${VISIBLE_DEVICES[*]:${MODEL_TP}:${JUDGE_TP}}")
 JUDGE_GPUS=${JUDGE_GPUS:-1}
 
-THINKING_FLAG=""
+THINKING_FLAG=()
 if [[ "$(echo "$ENABLE_THINKING" | tr '[:upper:]' '[:lower:]')" == "false" ]]; then
-    THINKING_FLAG="--chat-template-kwargs {\"enable_thinking\": false}"
+    THINKING_FLAG=("--default-chat-template-kwargs" '{"enable_thinking": false}')
 fi
 
 REASONING_PARSER_FLAG=""
@@ -213,7 +213,7 @@ CUDA_VISIBLE_DEVICES=${MODEL_GPUS} .venv/bin/vllm serve "${MODEL_PATH}" \
     --enable-auto-tool-choice \
     --tool-call-parser "${TOOL_CALL_PARSER}" \
     ${REASONING_PARSER_FLAG} \
-    ${THINKING_FLAG} &
+    "${THINKING_FLAG[@]}" &
 MODEL_PID=$!
 
 echo "Waiting for agent model vLLM server to be ready..."

@@ -87,44 +87,61 @@
   {
     "model": "qwen36_27b_cand1",
     "tasks": 100,
-    "simulations": 250,
+    "simulations": 300,
     "domain": "delivery,ota,instore",
     "avg_reward": 0.04,
     "pass_at": {
       "1": 0.04,
-      "2": 0.0767
+      "2": 0.0733,
+      "3": 0.1
     },
     "pass_hat": {
       "1": 0.04,
-      "2": 0.0033
+      "2": 0.0067,
+      "3": 0.0
     }
   },
   {
     "model": "qwen36_27b_cand2",
     "tasks": 100,
-    "simulations": 235,
+    "simulations": 300,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.1021,
+    "avg_reward": 0.0967,
     "pass_at": {
-      "1": 0.1033,
-      "2": 0.1867
+      "1": 0.0967,
+      "2": 0.17,
+      "3": 0.22
     },
     "pass_hat": {
-      "1": 0.1033,
-      "2": 0.02
+      "1": 0.0967,
+      "2": 0.0233,
+      "3": 0.0
     }
   },
   {
     "model": "qwen36_27b_cand3",
     "tasks": 100,
-    "simulations": 61,
+    "simulations": 133,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.082,
+    "avg_reward": 0.0977,
     "pass_at": {
-      "1": 0.082
+      "1": 0.09
     },
     "pass_hat": {
-      "1": 0.082
+      "1": 0.09
+    }
+  },
+  {
+    "model": "qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee",
+    "tasks": 100,
+    "simulations": 33,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.1515,
+    "pass_at": {
+      "1": 0.1515
+    },
+    "pass_hat": {
+      "1": 0.1515
     }
   }
 ]

@@ -95,7 +95,7 @@ python score_summary.py data/simulations/Qwen3.6-27B
 
 ### AISG evaluation results (100 cross-scenario tasks, delivery + instore + ota)
 
-Models ordered alphabetically. All Gemma models and Qwen3.5/3.6-27B have completed 3-trial runs (300+ simulations). Candidate models are partial runs.
+Models ordered alphabetically. All Gemma models, Qwen3.5-27B, Qwen3.6-27B, cand1, and cand2 have completed 3-trial runs (300+ simulations). cand3 and arcee are partial runs.
 
 | Model | Tasks | Sims | Avg Reward | Pass@1 | Pass^1 | Pass^2 | Pass^3 |
 |-------|:-----:|:----:|:----------:|:------:|:------:|:------:|:------:|
@@ -104,9 +104,21 @@ Models ordered alphabetically. All Gemma models and Qwen3.5/3.6-27B have complet
 | google/gemma-4-E4B-it | 100 | 300 | 0.007 | 0.7% | 0.007 | 0.000 | 0.000 |
 | Qwen/Qwen3.5-27B | 100 | 345 | 0.093 | 9.2% | 0.092 | **0.020** | **0.005** |
 | Qwen/Qwen3.6-27B | 100 | 300 | 0.067 | 6.7% | 0.067 | 0.013 | 0.000 |
-| qwen36_27b_cand1 *(partial)* | 100 | 250 | 0.040 | 4.0% | 0.040 | 0.003 | — |
-| qwen36_27b_cand2 *(partial)* | 100 | 235 | **0.102** | **10.3%** | **0.103** | **0.020** | — |
-| qwen36_27b_cand3 *(partial)* | 100 | 61 | 0.082 | 8.2% | 0.082 | — | — |
+| qwen36_27b_arcee *(partial)* | 100 | 33 | **0.152** | **15.2%** | **0.152** | — | — |
+| qwen36_27b_cand1 | 100 | 300 | 0.040 | 4.0% | 0.040 | 0.007 | 0.000 |
+| qwen36_27b_cand2 | 100 | 300 | 0.097 | 9.7% | 0.097 | 0.023 | 0.000 |
+| qwen36_27b_cand3 *(partial)* | 100 | 133 | 0.098 | 9.0% | 0.098 | — | — |
+
+`qwen36_27b_arcee` is a short alias for `qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee`.
+
+### Thinking-off (nothink) variants
+
+Very early — runs just started. Scores will fluctuate as more trials complete.
+
+| Model | Tasks | Sims | Avg Reward | Pass@1 | Pass^1 | Pass^2 | Pass^3 |
+|-------|:-----:|:----:|:----------:|:------:|:------:|:------:|:------:|
+| google/gemma-4-31B-it_nothink *(partial)* | 31 | 31 | 0.226 | 22.6% | 0.226 | — | — |
+| google/gemma-4-E2B-it_nothink *(partial)* | 28 | 28 | 0.000 | 0.0% | 0.000 | — | — |
 
 Metric definitions:
 - **Avg Reward** — mean task reward across all trials (0–1); vitabench uses a strict sliding-window rubric evaluator, so scores are near-binary (tasks either fully succeed or largely fail)
