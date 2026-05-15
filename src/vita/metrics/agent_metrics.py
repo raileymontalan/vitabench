@@ -114,16 +114,20 @@ def get_metrics_df(results: Results) -> tuple[pd.DataFrame, int]:
         logger.warning(
             f"All simulations must have the same number of trials. Found {df.info_num_trials.unique()}"
         )
-    max_k = df.info_num_trials.max()
+    configured_k = df.info_num_trials.max()
 
     task_ids_counts = [(tid, count) for tid, count in df.task_id.value_counts().items()]
     task_ids_counts.sort(key=lambda x: x[1])
     min_k = task_ids_counts[0][1]
-    if min_k < max_k:
+
+    # Use actual trial count per task as max_k. info.num_trials may be stored as 1
+    # when multiple single-trial runs were merged, so we trust the observed count instead.
+    max_k = min_k
+    if configured_k != min_k:
         logger.warning(
-            f"The minimum number of trials for a task is {min_k}, which is less than the expected number of trials {max_k}. Setting max k to {min_k}."
+            f"info.num_trials={configured_k} differs from actual minimum trials per task={min_k}. "
+            f"Using {min_k} as max k for pass^k metrics."
         )
-        max_k = min_k
     return df, max_k
 
 
@@ -169,8 +173,10 @@ def compute_metrics(results: Results) -> AgentMetrics:
     # pass@k = 1 - E_task [ (n - c choose k) / (n choose k) ]
     pass_at_n = {}
     average_at_n = {}
-    num_trials = results.info.num_trials
-    
+    # Use actual trial count (same max_k used for pass_hat_ks) rather than info.num_trials,
+    # which may be 1 when multiple single-trial runs were merged into one results file.
+    num_trials = len(df_pass_hat_k.columns)
+
     # Group by task_id to calculate pass@k and average@k
     task_groups = df.groupby("task_id")
     for k in range(1, num_trials + 1):
