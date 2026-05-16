@@ -17,6 +17,23 @@
     }
   },
   {
+    "model": "Qwen3.5-27B_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.1033,
+    "pass_at": {
+      "1": 0.1033,
+      "2": 0.1733,
+      "3": 0.23
+    },
+    "pass_hat": {
+      "1": 0.1033,
+      "2": 0.0333,
+      "3": 0.02
+    }
+  },
+  {
     "model": "Qwen3.6-27B",
     "tasks": 100,
     "simulations": 300,
@@ -31,6 +48,23 @@
       "1": 0.0667,
       "2": 0.0133,
       "3": 0.0
+    }
+  },
+  {
+    "model": "Qwen3.6-27B_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0933,
+    "pass_at": {
+      "1": 0.0933,
+      "2": 0.1567,
+      "3": 0.2
+    },
+    "pass_hat": {
+      "1": 0.0933,
+      "2": 0.03,
+      "3": 0.01
     }
   },
   {
@@ -51,7 +85,41 @@
     }
   },
   {
+    "model": "gemma-4-31B-it_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.1067,
+    "pass_at": {
+      "1": 0.1067,
+      "2": 0.1733,
+      "3": 0.21
+    },
+    "pass_hat": {
+      "1": 0.1067,
+      "2": 0.04,
+      "3": 0.01
+    }
+  },
+  {
     "model": "gemma-4-E2B-it",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
+    "model": "gemma-4-E2B-it_nothink",
     "tasks": 100,
     "simulations": 300,
     "domain": "delivery,ota,instore",
@@ -85,6 +153,23 @@
     }
   },
   {
+    "model": "gemma-4-E4B-it_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
     "model": "qwen36_27b_cand1",
     "tasks": 100,
     "simulations": 300,
@@ -99,6 +184,23 @@
       "1": 0.04,
       "2": 0.0067,
       "3": 0.0
+    }
+  },
+  {
+    "model": "qwen36_27b_cand1_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0667,
+    "pass_at": {
+      "1": 0.0667,
+      "2": 0.1167,
+      "3": 0.16
+    },
+    "pass_hat": {
+      "1": 0.0667,
+      "2": 0.0167,
+      "3": 0.01
     }
   },
   {
@@ -119,29 +221,86 @@
     }
   },
   {
-    "model": "qwen36_27b_cand3",
+    "model": "qwen36_27b_cand2_nothink",
     "tasks": 100,
-    "simulations": 133,
+    "simulations": 299,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.0977,
+    "avg_reward": 0.1171,
     "pass_at": {
-      "1": 0.09
+      "1": 0.1167,
+      "2": 0.1833
     },
     "pass_hat": {
-      "1": 0.09
+      "1": 0.1167,
+      "2": 0.05
+    }
+  },
+  {
+    "model": "qwen36_27b_cand3",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.1033,
+    "pass_at": {
+      "1": 0.1033,
+      "2": 0.18,
+      "3": 0.24
+    },
+    "pass_hat": {
+      "1": 0.1033,
+      "2": 0.0267,
+      "3": 0.01
+    }
+  },
+  {
+    "model": "qwen36_27b_cand3_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0867,
+    "pass_at": {
+      "1": 0.0867,
+      "2": 0.1467,
+      "3": 0.2
+    },
+    "pass_hat": {
+      "1": 0.0867,
+      "2": 0.0267,
+      "3": 0.02
     }
   },
   {
     "model": "qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee",
     "tasks": 100,
-    "simulations": 33,
+    "simulations": 300,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.1515,
+    "avg_reward": 0.0567,
     "pass_at": {
-      "1": 0.1515
+      "1": 0.0567,
+      "2": 0.1033,
+      "3": 0.14
     },
     "pass_hat": {
-      "1": 0.1515
+      "1": 0.0567,
+      "2": 0.01,
+      "3": 0.0
+    }
+  },
+  {
+    "model": "qwen36_27b_tlmsmytathvi_sparse_reversekl_otr_response_sys_397b_teacher_w_sys_4000_arcee_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0833,
+    "pass_at": {
+      "1": 0.0833,
+      "2": 0.1367,
+      "3": 0.18
+    },
+    "pass_hat": {
+      "1": 0.0833,
+      "2": 0.03,
+      "3": 0.02
     }
   }
 ]

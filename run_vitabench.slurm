@@ -68,7 +68,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=256G
 #SBATCH --gres=gpu:2
-#SBATCH --time=24:00:00
+#SBATCH --time=48:00:00
 #SBATCH --nodelist=smc-pod-[14,12,11,10,8,5,3]
 #SBATCH --output=logs/vitabench_%j.out
 #SBATCH --error=logs/vitabench_%j.out
