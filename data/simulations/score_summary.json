@@ -223,16 +223,18 @@
   {
     "model": "qwen36_27b_cand2_nothink",
     "tasks": 100,
-    "simulations": 299,
+    "simulations": 300,
     "domain": "delivery,ota,instore",
-    "avg_reward": 0.1171,
+    "avg_reward": 0.1167,
     "pass_at": {
       "1": 0.1167,
-      "2": 0.1833
+      "2": 0.1833,
+      "3": 0.24
     },
     "pass_hat": {
       "1": 0.1167,
-      "2": 0.05
+      "2": 0.05,
+      "3": 0.04
     }
   },
   {
@@ -267,6 +269,40 @@
       "1": 0.0867,
       "2": 0.0267,
       "3": 0.02
+    }
+  },
+  {
+    "model": "qwen36_27b_cand5",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0967,
+    "pass_at": {
+      "1": 0.0967,
+      "2": 0.1667,
+      "3": 0.22
+    },
+    "pass_hat": {
+      "1": 0.0967,
+      "2": 0.0267,
+      "3": 0.01
+    }
+  },
+  {
+    "model": "qwen36_27b_cand5_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0567,
+    "pass_at": {
+      "1": 0.0567,
+      "2": 0.1033,
+      "3": 0.14
+    },
+    "pass_hat": {
+      "1": 0.0567,
+      "2": 0.01,
+      "3": 0.0
     }
   },
   {
