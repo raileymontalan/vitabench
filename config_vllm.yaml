@@ -143,3 +143,29 @@ models:
     tp: 1
     enable_thinking: false
     tool_call_parser: qwen3_coder
+
+  aisingapore/gemma4_e2b_cand1:
+    model_path: aisingapore/gemma4_e2b_cand1
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: gemma4
+    tool_call_parser: gemma4
+
+  aisingapore/gemma4_e2b_cand1_nothink:
+    model_path: aisingapore/gemma4_e2b_cand1
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: gemma4
+
+  aisingapore/gemma4_e2b_cand2:
+    model_path: aisingapore/gemma4_e2b_cand2
+    tp: 1
+    enable_thinking: true
+    reasoning_parser: gemma4
+    tool_call_parser: gemma4
+
+  aisingapore/gemma4_e2b_cand2_nothink:
+    model_path: aisingapore/gemma4_e2b_cand2
+    tp: 1
+    enable_thinking: false
+    tool_call_parser: gemma4

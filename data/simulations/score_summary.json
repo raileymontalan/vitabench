@@ -170,6 +170,74 @@
     }
   },
   {
+    "model": "gemma4_e2b_cand1",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
+    "model": "gemma4_e2b_cand1_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
+    "model": "gemma4_e2b_cand2",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
+    "model": "gemma4_e2b_cand2_nothink",
+    "tasks": 100,
+    "simulations": 300,
+    "domain": "delivery,ota,instore",
+    "avg_reward": 0.0,
+    "pass_at": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "pass_hat": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    }
+  },
+  {
     "model": "qwen36_27b_cand1",
     "tasks": 100,
     "simulations": 300,

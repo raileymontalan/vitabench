@@ -102,6 +102,8 @@ All models have completed 3-trial runs (300 simulations) except Qwen3.5-27B (345
 | google/gemma-4-31B-it | 100 | 300 | 0.087 | 8.7% | 0.087 | 0.027 | 0.010 |
 | google/gemma-4-E2B-it | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
 | google/gemma-4-E4B-it | 100 | 300 | 0.007 | 0.7% | 0.007 | 0.000 | 0.000 |
+| gemma4_e2b_cand1 | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
+| gemma4_e2b_cand2 | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
 | Qwen/Qwen3.5-27B | 100 | 345 | 0.093 | 9.2% | 0.092 | 0.020 | 0.005 |
 | Qwen/Qwen3.6-27B | 100 | 300 | 0.067 | 6.7% | 0.067 | 0.013 | 0.000 |
 | qwen36_27b_arcee | 100 | 300 | 0.057 | 5.7% | 0.057 | 0.010 | 0.000 |
@@ -121,6 +123,8 @@ All models have completed 3-trial runs (300 simulations). Models ordered alphabe
 | google/gemma-4-31B-it_nothink | 100 | 300 | 0.107 | 10.7% | 0.107 | 0.040 | 0.010 |
 | google/gemma-4-E2B-it_nothink | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
 | google/gemma-4-E4B-it_nothink | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
+| gemma4_e2b_cand1_nothink | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
+| gemma4_e2b_cand2_nothink | 100 | 300 | 0.000 | 0.0% | 0.000 | 0.000 | 0.000 |
 | Qwen/Qwen3.5-27B_nothink | 100 | 300 | 0.103 | 10.3% | 0.103 | 0.033 | 0.020 |
 | Qwen/Qwen3.6-27B_nothink | 100 | 300 | 0.093 | 9.3% | 0.093 | 0.030 | 0.010 |
 | qwen36_27b_arcee_nothink | 100 | 300 | 0.083 | 8.3% | 0.083 | 0.030 | 0.020 |

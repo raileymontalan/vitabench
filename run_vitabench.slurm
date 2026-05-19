@@ -69,7 +69,7 @@
 #SBATCH --mem=256G
 #SBATCH --gres=gpu:2
 #SBATCH --time=48:00:00
-#SBATCH --nodelist=smc-pod-[14,12,11,10,8,5,3]
+#SBATCH --nodelist=smc-pod-[10,9,8,5,3]
 #SBATCH --output=logs/vitabench_%j.out
 #SBATCH --error=logs/vitabench_%j.out
 
@@ -140,7 +140,7 @@ print(f'_JUDGE_MODEL={shlex.quote(str(ecfg.get("judge_model", "openai/gpt-oss-12
 print(f'_JUDGE_TP={shlex.quote(str(ecfg.get("judge_tp", 1)))}')
 print(f'_DOMAIN={shlex.quote(str(ecfg.get("domain", "delivery,instore,ota")))}')
 print(f'_LANGUAGE={shlex.quote(str(ecfg.get("language", "english")))}')
-print(f'_NUM_TRIALS={shlex.quote(str(ecfg.get("num_trials", 1)))}')
+print(f'_NUM_TRIALS={shlex.quote(str(ecfg.get("num_trials", 3)))}')
 print(f'_MAX_CONCURRENCY={shlex.quote(str(ecfg.get("max_concurrency", 4)))}')
 print(f'_MAX_STEPS={shlex.quote(str(ecfg.get("max_steps", 300)))}')
 PYEOF
@@ -152,7 +152,7 @@ JUDGE_PORT=${JUDGE_PORT:-$(free_port)}
 
 DOMAIN=${DOMAIN:-${_DOMAIN:-"delivery,instore,ota"}}
 LANGUAGE=${LANGUAGE:-${_LANGUAGE:-"english"}}
-NUM_TRIALS=${NUM_TRIALS:-${_NUM_TRIALS:-"1"}}
+NUM_TRIALS=${NUM_TRIALS:-${_NUM_TRIALS:-"3"}}
 MAX_CONCURRENCY=${MAX_CONCURRENCY:-${_MAX_CONCURRENCY:-"4"}}
 MAX_STEPS=${MAX_STEPS:-${_MAX_STEPS:-"300"}}
 
